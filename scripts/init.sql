@@ -1,1 +1,0 @@
-CREATE DATABASE IF NOT EXISTS cnd_str_db;

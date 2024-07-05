@@ -81,5 +81,5 @@ COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 COPY --chown=node:node --from=build /usr/src/app/package*.json ./
 
 # Start the server using the production build
-CMD [ "node", "dist/src/main.js" ]
+CMD [ "node", "dist/main.js" ]
 #CMD  while true; do sleep 1; done

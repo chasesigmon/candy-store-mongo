@@ -16,7 +16,8 @@ import {
   InventoryDTO,
   Inventory,
   InventoryListResponse,
-} from '../models/inventory.entity';
+  InventoryDocument,
+} from '../models/inventory.model';
 import { GenericPageOptionsDto } from '../../../validation/filters';
 import {
   CreateInventoryDocs,
@@ -34,7 +35,7 @@ export class InventoryController {
   @Post('')
   @CreateInventoryDocs()
   @UsePipes(new JoiValidationPipe(InventoryRequestSchema))
-  async create(@Body() body: InventoryDTO): Promise<Inventory> {
+  async create(@Body() body: InventoryDTO): Promise<InventoryDocument> {
     return this.inventoryService.create(body);
   }
 
@@ -42,7 +43,7 @@ export class InventoryController {
   @GetInventoriesDocs()
   async findAll(
     @Query() filter?: GenericPageOptionsDto,
-  ): Promise<InventoryListResponse> {
+  ): Promise<InventoryDocument[]> {
     return this.inventoryService.findAll(filter);
   }
 
@@ -52,13 +53,14 @@ export class InventoryController {
   async update(
     @Param() params: { id: string },
     @Body() body: InventoryDTO,
-  ): Promise<Inventory> {
-    return this.inventoryService.update(params.id, body);
+  ): Promise<InventoryDocument> {
+    const result = await this.inventoryService.update(params.id, body);
+    return result;
   }
 
   @Get('/:id')
   @GetInventoryDocs()
-  async find(@Param() params: { id: string }): Promise<Inventory> {
+  async find(@Param() params: { id: string }): Promise<InventoryDocument> {
     return this.inventoryService.find(params.id);
   }
 }

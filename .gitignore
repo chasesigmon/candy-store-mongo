@@ -39,3 +39,4 @@ lerna-debug.log*
 /mysql-db
 /data
 coverage
+/db

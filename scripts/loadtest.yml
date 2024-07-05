@@ -16,6 +16,6 @@ before:
 scenarios:
   - flow:
       - get:
-          url: '/customers'
+          url: '/inventories'
           headers:
             Authorization: 'Bearer {{ token }}'

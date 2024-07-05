@@ -6,7 +6,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Inventory } from '../models/inventory.entity';
+import { Inventory } from '../models/inventory.model';
 
 export const CreateInventoryDocs = () =>
   applyDecorators(

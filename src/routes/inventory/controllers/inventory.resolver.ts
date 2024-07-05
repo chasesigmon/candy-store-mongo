@@ -5,7 +5,7 @@ import {
   Inventory,
   InventoryDTO,
   InventoryListResponse,
-} from '../models/inventory.entity';
+} from '../models/inventory.model';
 import { InventoryService } from '../services/inventory.service';
 
 @Resolver(() => Inventory)
@@ -17,7 +17,7 @@ export class InventoryResolver {
     return this.inventoryService.create(body);
   }
 
-  @Query(() => InventoryListResponse, { name: 'inventories' })
+  @Query(() => [Inventory], { name: 'inventories' })
   findAll() {
     return this.inventoryService.findAll();
   }

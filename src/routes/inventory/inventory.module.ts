@@ -1,16 +1,23 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { InventoryController } from './controllers/inventory.controller';
 import { InventoryService } from './services/inventory.service';
-import { Inventory } from './models/inventory.entity';
-import { InventoryRepository } from './repositories/inventory.repository';
+import { Inventory } from './models/inventory.model';
 import { InventoryResolver } from './controllers/inventory.resolver';
+import { MongooseModule } from '@nestjs/mongoose';
+import { InventorySchema } from './models/inventory.model';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Inventory])],
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: Inventory.name,
+        schema: InventorySchema,
+      },
+    ]),
+  ],
   controllers: [InventoryController],
-  providers: [InventoryResolver, InventoryService, InventoryRepository],
-  exports: [InventoryService, InventoryRepository],
+  providers: [InventoryResolver, InventoryService],
+  exports: [InventoryService],
 })
 export class InventoryModule {}

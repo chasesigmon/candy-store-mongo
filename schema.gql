@@ -9,20 +9,16 @@ scalar DateTime
 
 type Inventory {
   availableQuantity: Float!
-  id: Float!
+  id: String!
   manufactureDate: DateTime!
   name: String!
 }
 
 input InventoryDTO {
   availableQuantity: Float!
+  id: String!
   manufactureDate: DateTime!
   name: String!
-}
-
-type InventoryListResponse {
-  items: [Inventory!]!
-  totalCount: Float!
 }
 
 type Mutation {
@@ -31,6 +27,6 @@ type Mutation {
 }
 
 type Query {
-  inventories: InventoryListResponse!
+  inventories: [Inventory!]!
   inventory(id: String!): Inventory!
 }
