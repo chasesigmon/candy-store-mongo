@@ -1,0 +1,21 @@
+config:
+  target: http://localhost:3000
+  phases:
+    - duration: 2
+      arrivalRate: 2
+
+before:
+  flow:
+    - log: 'Get auth token'
+    - post:
+        url: '/auth'
+        capture:
+          - json: $.access_token
+            as: token
+
+scenarios:
+  - flow:
+      - get:
+          url: '/customers'
+          headers:
+            Authorization: 'Bearer {{ token }}'

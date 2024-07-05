@@ -1,0 +1,36 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Inventory {
+  availableQuantity: Float!
+  id: Float!
+  manufactureDate: DateTime!
+  name: String!
+}
+
+input InventoryDTO {
+  availableQuantity: Float!
+  manufactureDate: DateTime!
+  name: String!
+}
+
+type InventoryListResponse {
+  items: [Inventory!]!
+  totalCount: Float!
+}
+
+type Mutation {
+  create(body: InventoryDTO!): Inventory!
+  update(body: InventoryDTO!, id: String!): Inventory!
+}
+
+type Query {
+  inventories: InventoryListResponse!
+  inventory(id: String!): Inventory!
+}

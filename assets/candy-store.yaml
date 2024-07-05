@@ -1,0 +1,873 @@
+openapi: 3.0.3
+info:
+  title: Candy Store
+  description: >-
+    The Candy Store API provides operations to create, view, and maintain customer, 
+    inventory, store, and order records. Each resource is uniquely identifiable by an id.
+
+    Order statuses:
+
+      * PENDING - The order has been created and is pending delivery or cancellation.
+      * DELIVERED - The order has been delivered.
+      * CANCELLED - The order has been cancelled.
+tags:
+  - name: API
+    description: Endpoints which describe this API
+  - name: Customer
+    description: Endpoints to manage customers
+  - name: Inventory
+    description: Endpoints to manage inventories
+  - name: Store
+    description: Endpoints to manage stores
+  - name: Order
+    description: Endpoints to manage orders
+paths:
+  /customers:
+    get:
+      summary: Return a collection of customers
+      description: >-
+        Use this operation to retrieve a paginated, sortable, filterable collection of Customers.
+        Can filter by name.
+      operationId: getCustomers
+      security:
+        - apiKey: []
+      tags:
+        - Customer
+      parameters:
+        - $ref: '#/components/parameters/pageQueryParam'
+        - $ref: '#/components/parameters/pageSizeQueryParam'
+        - $ref: '#/components/parameters/orderByQueryParam'
+        - $ref: '#/components/parameters/sortOrderQueryParam'
+        - $ref: '#/components/parameters/filterQueryParam'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customers'
+        '400':
+          $ref: '#/components/responses/400'
+    post:
+      summary: Create a new customer
+      operationId: createCustomer
+      security:
+        - apiKey: []
+      description: >-
+        Create a new customer resource.
+      tags:
+        - Customer
+      requestBody:
+        $ref: '#/components/requestBodies/CreateCustomer'
+      responses:
+        '201':
+          description: Created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/400'
+  '/customers/{customerId}':
+    get:
+      summary: Return this customer
+      description: Retrieve this customer from the database.
+      operationId: getCustomer
+      security:
+        - apiKey: []
+      tags:
+        - Customer
+      parameters:
+        - $ref: '#/components/parameters/customerIdPathParam'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          $ref: '#/components/responses/404'
+    update:
+      summary: Update this customer
+      description: A full update of the customer.
+      operationId: updateCustomer
+      security:
+        - apiKey: []
+      tags:
+        - Customer
+      parameters:
+        - $ref: '#/components/parameters/customerIdPathParam'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateCustomer'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+  /inventories:
+    get:
+      summary: Return a collection of inventories
+      description: >-
+        Use this operation to retrieve a paginated, sortable, filterable collection of Inventories.
+        Can filter by name.
+      operationId: getInventories
+      security:
+        - apiKey: []
+      tags:
+        - Customer
+      parameters:
+        - $ref: '#/components/parameters/pageQueryParam'
+        - $ref: '#/components/parameters/pageSizeQueryParam'
+        - $ref: '#/components/parameters/orderByQueryParam'
+        - $ref: '#/components/parameters/sortOrderQueryParam'
+        - $ref: '#/components/parameters/filterQueryParam'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventories'
+        '400':
+          $ref: '#/components/responses/400'
+    post:
+      summary: Create a new inventory
+      operationId: createInventory
+      security:
+        - apiKey: []
+      description: >-
+        Create a new inventory resource.
+      tags:
+        - Inventory
+      requestBody:
+        $ref: '#/components/requestBodies/CreateInventory'
+      responses:
+        '201':
+          description: Created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+        '400':
+          $ref: '#/components/responses/400'
+  '/inventories/{inventoryId}':
+    get:
+      summary: Return this inventory
+      description: Retrieve this inventory from the database.
+      operationId: getInventory
+      security:
+        - apiKey: []
+      tags:
+        - Inventory
+      parameters:
+        - $ref: '#/components/parameters/inventoryIdPathParam'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+        '404':
+          $ref: '#/components/responses/404'
+    update:
+      summary: Update this inventory
+      description: A full update of the inventory.
+      operationId: updateInventory
+      security:
+        - apiKey: []
+      tags:
+        - Inventory
+      parameters:
+        - $ref: '#/components/parameters/inventoryIdPathParam'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateInventory'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+  /stores:
+    get:
+      summary: Return a collection of stores
+      description: >-
+        Use this operation to retrieve a paginated, sortable, filterable collection of Stores.
+        Can filter by managerName.
+      operationId: getStores
+      security:
+        - apiKey: []
+      tags:
+        - Customer
+      parameters:
+        - $ref: '#/components/parameters/pageQueryParam'
+        - $ref: '#/components/parameters/pageSizeQueryParam'
+        - $ref: '#/components/parameters/orderByQueryParam'
+        - $ref: '#/components/parameters/sortOrderQueryParam'
+        - $ref: '#/components/parameters/filterQueryParam'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stores'
+        '400':
+          $ref: '#/components/responses/400'
+    post:
+      summary: Create a new store
+      operationId: createStore
+      security:
+        - apiKey: []
+      description: >-
+        Create a new store resource.
+      tags:
+        - Store
+      requestBody:
+        $ref: '#/components/requestBodies/CreateStore'
+      responses:
+        '201':
+          description: Created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        '400':
+          $ref: '#/components/responses/400'
+  '/stores/{storeId}':
+    get:
+      summary: Return this store
+      description: Retrieve this store from the database.
+      operationId: getStore
+      security:
+        - apiKey: []
+      tags:
+        - Store
+      parameters:
+        - $ref: '#/components/parameters/storeIdPathParam'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        '404':
+          $ref: '#/components/responses/404'
+    update:
+      summary: Update this store
+      description: A full update of the store.
+      operationId: updateStore
+      security:
+        - apiKey: []
+      tags:
+        - Store
+      parameters:
+        - $ref: '#/components/parameters/storeIdPathParam'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateStore'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+  /orders:
+    get:
+      summary: Return a collection of orders
+      description: >-
+        Use this operation to retrieve a paginated, sortable, filterable collection of Orders.
+        Can filter by customerId, inventoryId, storeId, status.
+      operationId: getOrders
+      security:
+        - apiKey: []
+      tags:
+        - Order
+      parameters:
+        - $ref: '#/components/parameters/pageQueryParam'
+        - $ref: '#/components/parameters/pageSizeQueryParam'
+        - $ref: '#/components/parameters/orderByQueryParam'
+        - $ref: '#/components/parameters/sortOrderQueryParam'
+        - $ref: '#/components/parameters/filterQueryParam'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orders'
+        '400':
+          $ref: '#/components/responses/400'
+    post:
+      summary: Create a new order
+      operationId: createOrder
+      security:
+        - apiKey: []
+      description: >-
+        Create a new order resource. Should check if the customer, inventory, and store exist.
+        If the inventory does not have the availableQuantity for the order then it should throw a BadRequest. 
+        The inventory's availableQuantity should be subtracted by the order quantity.
+      tags:
+        - Order
+      requestBody:
+        $ref: '#/components/requestBodies/CreateOrder'
+      responses:
+        '201':
+          description: Created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+  '/orders/{orderId}':
+    get:
+      summary: Return this order
+      description: Retrieve this order from the database.
+      operationId: getOrder
+      security:
+        - apiKey: []
+      tags:
+        - Order
+      parameters:
+        - $ref: '#/components/parameters/orderIdPathParam'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      summary: Patch this order
+      description: >-
+        Patch the status of the order.
+        If the order is CANCELLED then update the inventory's avaiableQuantity and add the order quantity.
+      operationId: patchOrder
+      security:
+        - apiKey: []
+      tags:
+        - Order
+      parameters:
+        - $ref: '#/components/parameters/orderIdPathParam'
+      requestBody:
+        $ref: '#/components/requestBodies/PatchOrder'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+  /report:
+    get:
+      summary: Return a monthly report
+      description: >-
+        Return a monthly report of orders grouped by store and status
+      operationId: getReport
+      security:
+        - apiKey: []
+      tags:
+        - Report
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orders'
+        '400':
+          $ref: '#/components/responses/400'
+  /auth:
+    post:
+      summary: Generate an access token
+      description: >-
+        Generate an access token for use in requests
+      operationId: getAccessToken
+      security:
+        - apiKey: []
+      tags:
+        - Auth
+      responses:
+        '201':
+          description: CREATED.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '400':
+          $ref: '#/components/responses/400'
+components:
+  parameters:
+    customerIdPathParam:
+      name: customerId
+      description: The unique identifier of the customer.
+      in: path
+      required: true
+      schema:
+        type: string
+    inventoryIdPathParam:
+      name: inventoryId
+      description: The unique identifier of the inventory.
+      in: path
+      required: true
+      schema:
+        type: string
+    storeIdPathParam:
+      name: storeId
+      description: The unique identifier of the store.
+      in: path
+      required: true
+      schema:
+        type: string
+    orderIdPathParam:
+      name: orderId
+      description: The unique identifier of the order.
+      in: path
+      required: true
+      schema:
+        type: string
+    filterQueryParam:
+      name: filter
+      description: An object to query for specific data.
+      in: query
+      schema:
+        type: string
+    pageSizeQueryParam:
+      name: page
+      in: query
+      description: The maximum number of records to return.
+      schema:
+        type: integer
+        format: int32
+        default: 10
+    orderByQueryParam:
+      name: orderBy
+      in: query
+      description: >-
+        Optional sort criteria, such
+        as `?orderBy=name`.
+      schema:
+        type: string
+    pageQueryParam:
+      name: page
+      in: query
+      description: The zero-based index used with pageSize to determine the starting record.
+      schema:
+        type: integer
+        format: int64
+        default: 1
+    sortOrderQueryParam:
+      name: sortOrder
+      in: query
+      description: The sort order.
+      schema:
+        type: string
+        enum:
+          - ASC
+          - DESC
+        default: ASC
+  responses:
+    '400':
+      description: >-
+        Bad Request. The request body or one or more of the query
+        parameters was not well formed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '404':
+      description: >-
+        Not Found. There is no such resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  requestBodies:
+    CreateCustomer:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateCustomer'
+      description: The data necessary to create a new customer.
+      required: true
+    UpdateCustomer:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateCustomer'
+      description: The data necessary to update a customer.
+    CreateInventory:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateInventory'
+      description: The data necessary to create a new inventory.
+      required: true
+    UpdateInventory:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateInventory'
+      description: The data necessary to update an inventory.
+    CreateStore:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateStore'
+      description: The data necessary to create a new store.
+      required: true
+    UpdateStore:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateStore'
+      description: The data necessary to update a store.
+    CreateOrder:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateOrder'
+      description: The data necessary to create a new order.
+      required: true
+    PatchOrder:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatchOrder'
+      description: The data necessary to patch an order.
+  schemas:
+    Token:
+      title: Access token
+      description: Access token for authentication
+      type: object
+      allOf:
+        properties:
+          access_token:
+            description: An uniquely generated access token.
+            type: string
+    Customer:
+      title: Customer
+      description: Properties of a customer.
+      required:
+        - id
+        - name
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Id'
+        - $ref: '#/components/schemas/CreateCustomer'
+    Customers:
+      title: Customers collection
+      description: Collection of customers.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TotalCount'
+          properties:
+            items:
+              description: An array of customers.
+              type: array
+              items:
+                $ref: '#/components/schemas/Customer'
+      example:
+        items:
+          - id: 1
+            name: John
+          - id: 2
+            name: Jane
+        totalCount: 2
+    CreateCustomer:
+      title: Create Customer
+      description: Data used to create a new customer.
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          description: The name of the customer.
+          type: string
+    UpdateCustomer:
+      title: Update Customer
+      description: Data used to update a customer.
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          description: The name of the customer.
+          type: string
+    CreateInventory:
+      title: Create Inventory
+      description: Data used to create a new inventory.
+      required:
+        - name
+        - manufactureDate
+        - availableQuantity
+      type: object
+      properties:
+        name:
+          description: The name of the inventory.
+          type: string
+        manufactureDate:
+          description: The date of manufacture of the inventory.
+          type: string
+          readOnly: true
+          format: date-time
+        availableQuantity:
+          description: Available quantity of the inventory.
+    UpdateInventory:
+      title: Update Inventory
+      description: Data used to update an inventory.
+      required:
+        - name
+        - manufactureDate
+        - availableQuantity
+      type: object
+      properties:
+        name:
+          description: The name of the inventory.
+          type: string
+        manufactureDate:
+          description: The date of manufacture of the inventory.
+          type: string
+          readOnly: true
+          format: date-time
+        availableQuantity:
+          description: Available quantity of the inventory.
+          type: integer
+    Inventory:
+      title: Inventory
+      description: Properties of an inventory.
+      required:
+        - id
+        - name
+        - manufactureDate
+        - availableQuantity
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Id'
+        - $ref: '#/components/schemas/CreateInventory'
+    Inventories:
+      title: Inventories collection
+      description: Collection of inventories.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TotalCount'
+          properties:
+            items:
+              description: An array of inventories.
+              type: array
+              items:
+                $ref: '#/components/schemas/Inventory'
+      example:
+        items:
+          - id: 1
+            name: ChocolateRVs
+            manufactureDate: 2022-01-20T11:14:32Z
+            availableQuantity: 10
+          - id: 2
+            name: ChocolateCruisers
+            manufactureDate: 2022-01-20T11:14:32Z
+            availableQuantity: 10
+        totalCount: 2
+    CreateStore:
+      title: Create Store
+      description: Data used to create a new store.
+      required:
+        - address
+        - managerName
+      type: object
+      properties:
+        address:
+          description: The address of the store.
+          type: string
+        managerName:
+          description: The name of the manager of the store.
+          type: string
+    UpdateStore:
+      title: Update Store
+      description: Data used to update a store.
+      required:
+        - address
+        - managerName
+      type: object
+      properties:
+        address:
+          description: The address of the store.
+          type: string
+        managerName:
+          description: The name of the manager of the store.
+          type: string
+    Store:
+      title: Store
+      description: Properties of a store.
+      required:
+        - id
+        - address
+        - managerName
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Id'
+        - $ref: '#/components/schemas/CreateStore'
+    Stores:
+      title: Stores collection
+      description: Collection of stores.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TotalCount'
+          properties:
+            items:
+              description: An array of stores.
+              type: array
+              items:
+                $ref: '#/components/schemas/Store'
+      example:
+        items:
+          - id: 1
+            address: 1000 Bounding Lane
+            manageName: Jerry
+          - id: 2
+            address: 3412 King Street
+            manageName: Lana
+        totalCount: 2
+    CreateOrder:
+      title: Create Order
+      description: Data used to create a new order.
+      required:
+        - customerId
+        - inventoryId
+        - storeId
+        - quantity
+      type: object
+      properties:
+        customerId:
+          description: The unique identifier of the customer.
+          type: integer
+        inventoryId:
+          description: The unique identifier of the inventory.
+          type: integer
+        storeId:
+          description: The unique identifier of the store.
+          type: integer
+        quantity:
+          description: The order quantity.
+          type: integer
+    PatchOrder:
+      title: Patch Order
+      description: Data used to patch an order.
+      required:
+        - status
+      type: object
+      properties:
+        status:
+          description: The status of the order.
+          type: string
+          enum:
+            - PENDING
+            - DELIVERED
+            - CANCELLED
+    Order:
+      title: Order
+      description: Properties of an order.
+      required:
+        - id
+        - customerId
+        - inventoryId
+        - storeId
+        - quantity
+        - status
+        - createDate
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Id'
+        - $ref: '#/components/schemas/CreateOrder'
+    Orders:
+      title: Orders collection
+      description: Collection of orders.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TotalCount'
+          properties:
+            items:
+              description: An array of orders.
+              type: array
+              items:
+                $ref: '#/components/schemas/Order'
+      example:
+        items:
+          - id: 1
+            customerId: 1
+            inventoryId: 1
+            storeId: 1
+            quantity: 10
+            createDate: 2022-01-20T11:14:32Z
+          - id: 2
+            customerId: 2
+            inventoryId: 5
+            storeId: 3
+            quantity: 20
+            createDate: 2022-01-20T11:14:32Z
+            updateDate: 2023-01-20T11:14:32Z
+        totalCount: 2
+    Error:
+      title: Error response
+      description: Properties of an error response.
+      type: object
+      properties:
+        code:
+          title: Error code
+          description: The error code.
+          type: integer
+        message:
+          title: Error message
+          description: The message containing the error.
+          type: string
+    Id:
+      title: Id
+      description: Properties of an id object.
+      type: object
+      properties:
+        id:
+          description: The unique identifier for this resource.
+          readOnly: true
+          type: number
+    TotalCount:
+      title: TotalCount
+      description: TotalCount
+      type: object
+      properties:
+        totalCount:
+          title: Total count.
+          description: >-
+            The total count of records returned that meet the query and pagination requirements.
+          type: integer
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: API-Key
+      in: header
+      description: API key to authorize requests.

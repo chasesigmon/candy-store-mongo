@@ -1,0 +1,52 @@
+{
+    "version": "1.0.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Node: Debug App",
+            "args": ["${workspaceFolder}/src/main.ts"],
+            "runtimeArgs": [
+                "--nolazy",
+                "-r",
+                "ts-node/register",
+                "-r",
+                "tsconfig-paths/register"
+            ],
+            "sourceMaps": true,
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Node: Debug Unit Test",
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+            "args": [
+                "${fileBasename}",
+                "--verbose",
+                "-i",
+                "--no-cache",
+                "--watchAll",
+                "--config=${workspaceFolder}/jest.config.json"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Node: Debug E2E Test",
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+            "args": [
+                "${fileBasename}",
+                "--verbose",
+                "-i",
+                "--no-cache",
+                "--watchAll",
+                "--config=${workspaceFolder}/test/jest-e2e.json"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mariadb:
+    image: mariadb
+    restart: always
+    command: --init-file /scripts/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cnd_str_db
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./scripts/init.sql:/scripts/init.sql
+      - ./data:/var/lib/mysql
+    networks:
+      - default
+
+  cndstr-app:
+    container_name: cndstr-app
+    depends_on:
+      - mariadb
+    build: .
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true
+    networks:
+      - default
