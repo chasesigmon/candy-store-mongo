@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Post } from '@nestjs/common';
+import { Controller, Post } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { GetAuthDocs } from './auth.controller.docs';
 import { Public } from './decorators';

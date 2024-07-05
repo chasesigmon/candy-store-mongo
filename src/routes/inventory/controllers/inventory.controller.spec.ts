@@ -1,25 +1,20 @@
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { InventoryModule } from '../inventory.module';
-import {
-  Inventory,
-  InventoryDocument,
-  InventorySchema,
-} from '../models/inventory.model';
+import { Inventory, InventorySchema } from '../models/inventory.model';
 import { InventoryController } from './inventory.controller';
 import {
   rootMongooseTestModule,
   closeInMongodConnection,
 } from '../../../../test-utils/utils';
-import mongoose, { Connection, Model } from 'mongoose';
-import { INestApplication } from '@nestjs/common';
+import { Model } from 'mongoose';
 
 describe('InventoryController', () => {
   let inventoryController: InventoryController;
-  let firstRecordName = '';
-  let db: Connection;
   let inventoryModel: Model<Inventory>;
   let app: TestingModule;
+  let inv;
+  const updateName = 'ChocolateCruisers';
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
@@ -35,6 +30,12 @@ describe('InventoryController', () => {
     inventoryController = app.get<InventoryController>(InventoryController);
 
     inventoryModel = app.get<Model<Inventory>>(getModelToken(Inventory.name));
+
+    inv = await new inventoryModel({
+      name: 'ChocolateCars',
+      manufactureDate: '2022-01-20',
+      availableQuantity: 3,
+    }).save();
   });
 
   afterAll(async () => {
@@ -60,19 +61,9 @@ describe('InventoryController', () => {
   });
 
   describe('update()', () => {
-    let inv;
-    beforeAll(async () => {
-      firstRecordName = 'ChocolateCars';
-      inv = await new inventoryModel({
-        name: 'ChocolateCars',
-        manufactureDate: '2022-01-20',
-        availableQuantity: 3,
-      }).save();
-    });
-
     it('should succeed and return with an updated inventory item', async () => {
       const inventory = {
-        name: 'ChocolateCruisers',
+        name: updateName,
         manufactureDate: new Date('2023-05-05'),
         availableQuantity: 30,
       };
@@ -85,32 +76,19 @@ describe('InventoryController', () => {
     });
   });
 
-  //   describe('findAll()', () => {
-  //     let connection;
-  //     let entityManager: EntityManager;
-  //     beforeAll(async () => {
-  //       connection = await getConnection();
-  //       entityManager = connection.createEntityManager();
-  //       entityManager.insert<Inventory>(Inventory, {
-  //         name: 'ChocolateRVs',
-  //         manufactureDate: '2022-01-20',
-  //         availableQuantity: 3,
-  //       });
-  //     });
+  describe('findAll()', () => {
+    it('should succeed and return with an array of inventories', async () => {
+      const result = await inventoryController.findAll();
+      expect(result).toBeDefined();
+      expect(result.length).toEqual(2);
+    });
+  });
 
-  //     it('should succeed and return with an array of inventories', async () => {
-  //       const result = await inventoryController.findAll();
-  //       expect(result.items).toBeDefined();
-  //     });
-  //   });
-
-  //   describe('find()', () => {
-  //     it('should succeed and return with an inventory item', async () => {
-  //       const inventory = await inventoryController.findAll();
-  //       const id = inventory.items[0].id.toString();
-  //       const result = await inventoryController.find({ id });
-  //       expect(result).toBeDefined();
-  //       expect(result.name).toEqual(firstRecordName);
-  //     });
-  //   });
+  describe('find()', () => {
+    it('should succeed and return with an inventory item', async () => {
+      const result = await inventoryController.find({ id: inv.id });
+      expect(result).toBeDefined();
+      expect(result.name).toEqual(updateName);
+    });
+  });
 });

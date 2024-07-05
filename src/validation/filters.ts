@@ -67,7 +67,7 @@ export class OrderPageOptionsDto extends PageOptionsDto {
 }
 
 export const formatFilter = (filter?: PageOptionsDto) => {
-  let formattedFilter: any = {};
+  const formattedFilter: any = {};
   const page = filter?.page ? parseInt(filter.page.toString()) : 1;
   const pageSize = filter?.pageSize ? parseInt(filter.pageSize.toString()) : 10;
 

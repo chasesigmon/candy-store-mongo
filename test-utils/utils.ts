@@ -1,3 +1,4 @@
+import { CanActivate } from '@nestjs/common';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
@@ -18,3 +19,9 @@ export const rootMongooseTestModule = (options: MongooseModuleOptions = {}) =>
 export const closeInMongodConnection = async () => {
   if (mongod) await mongod.stop();
 };
+
+export class JwtGuardMock implements CanActivate {
+  canActivate(): boolean {
+    return true;
+  }
+}

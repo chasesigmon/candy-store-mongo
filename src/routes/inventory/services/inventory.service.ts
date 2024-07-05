@@ -28,6 +28,7 @@ export class InventoryService {
   }
 
   async update(id: string, body: InventoryDTO): Promise<InventoryDocument> {
+    await this.find(id);
     return this.inventoryModel.findByIdAndUpdate(id, body, {
       new: true,
     });

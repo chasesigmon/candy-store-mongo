@@ -8,7 +8,7 @@ import { InputType, Int, Field, ObjectType } from '@nestjs/graphql';
 export class InventoryDTO {
   @ApiProperty()
   @Field(() => String)
-  id?: String;
+  id?: string;
 
   @ApiProperty()
   @Field()
@@ -50,7 +50,7 @@ export type InventoryDocument = Inventory & Document;
 @ObjectType()
 export class Inventory {
   @Field()
-  id: String;
+  id: string;
 
   @Prop({ required: true })
   @Field()
