@@ -40,3 +40,5 @@ lerna-debug.log*
 /data
 coverage
 /db
+/configdb
+.next
